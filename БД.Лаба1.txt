@@ -1,0 +1,116 @@
+CREATE TABLE t_messure
+  (id_messure INT NOT NULL ENABLE,
+  name VARCHAR2(4) NOT NULL ENABLE,
+  CONSTRAINT pk_messure PRIMARY KEY (id_messure)
+  ENABLE
+  );
+ 
+CREATE TABLE t_material
+  (id_material INT NOT null enable,
+  name VARCHAR2 (100) NOT NULL ENABLE,
+  id_messure INT NOT NULL ENABLE,
+  CONSTRAINT pk_material PRIMARY KEY (id_material)
+  ENABLE,
+  CONSTRAINT fk_material_messure
+  FOREIGN KEY (id_messure) REFERENCES
+  t_messure (id_messure) ENABLE
+  );
+  
+CREATE TABLE t_inprice
+  (id_material INT NOT null enable,
+  price_date INT NOT null enable,
+  price NUMBER(10,2) CHECK(price>=0) ENABLE,
+  CONSTRAINT fk_inprice_material
+  FOREIGN KEY (id_material) REFERENCES
+  t_material (ID_MATERIAL)
+  ON DELETE CASCADE
+  );
+  
+CREATE TABLE t_store
+  (id_store INT NOT NULL ENABLE,
+   name VARCHAR2 (20) NOT NULL ENABLE
+   CONSTRAINT pk_store PRIMARY KEY (id_store)
+ENABLE
+  );
+  
+CREATE TABLE t_caterer
+  (id_caterer INT NOT NULL ENABLE,
+   name VARCHAR2 (30) NOT NULL ENABLE,
+   address VARCHAR2 (40) NOT NULL ENABLE,
+   phone NUMBER(11,0) NOT NULL ENABLE,
+   fax NUMBER(20,0) NOT NULL ENABLE
+   CONSTRAINT PK_caterer PRIMARY KEY(id_caterer)
+  );
+  
+CREATE TABLE t_employer
+  (id_employer INT NOT NULL ENABLE,
+   surname VARCHAR2(30) NOT NULL ENABLE,
+   name VARCHAR2(30) NOT NULL ENABLE,
+   father_name VARCHAR2(30) NOT NULL ENABLE
+   CONSTRAINT pk_employer PRIMARY KEY (ID_EMPLOYER)
+  );
+  
+CREATE TABLE t_section
+  (id_section INT NOT null enable,
+  name VARCHAR2 (100) NOT NULL ENABLE,
+  id_employer INT NOT NULL ENABLE,
+  cONSTRAINT pk_section PRIMARY KEY (id_section)
+  ENABLE,
+  CONSTRAINT fk_section_employer
+  FOREIGN KEY (id_employer) REFERENCES
+  t_emloyer (id_employer) ENABLE
+  );
+
+CREATE TABLE t_surplus
+  (CONSTRAINT INT fk_surplus_material
+   FOREIGN KEY (it_material) REFERENCES
+   t_material (ID_MATERIAL)
+   CONSTRAINT fk_surplus_store
+   FOREIGN KEY (id_store) REFERENCES
+   t_store (ID_store)   
+   ON DELETE CASCADE
+   value INT NOT NULL ENABLE    
+  );
+
+CREATE TABLE t_supply(
+  id_supply INT NOT NULL,
+  id_caterer INT NOT NULL,
+  id_material INT NOT NULL,
+  id_store INT NOT NULL
+  supply_data DATE NOT NULL,
+  volume INT NOT NULL,
+  CONSTRAINT PK_supply PRIMARY KEY(id_supply),
+	CONSTRAINT FK_supply_caterer
+	FOREIGN KEY(id_caterer) REFERENCES
+	t_caterer(id_caterer),
+	CONSTRAINT FK_supply_material 
+	FOREIGN KEY(id_material) REFERENCES
+	t_material(id_material),
+	CONSTRAINT FK_supply_store
+	FOREIGN KEY(id_store) REFERENCES
+	t_store(id_store)
+  );
+
+CREATE TABLE t_deliver(
+id_deliver INT NOT NULL,
+deliver_data DATE NOT NULL,
+id_store INT NOT NULL,
+id_material INT NOT NULL,
+id_messure INT NOT NULL,,
+CONSTRAINT PK_deliver PRIMARY KEY(id_deliver)
+	
+		CONSTRAINT FK_deliver_store
+		FOREIGN KEY(id_store) REFERENCES
+		t_store(id_store)
+		ON DELETE CASCADE,
+	
+		CONSTRAINT FK_deliver_material
+		FOREIGN KEY(id_material) REFERENCES
+		t_material(id_material)
+		ON DELETE CASCADE,
+	
+		CONSTRAINT FK_deliver_messure
+		FOREIGN KEY(id_messure) REFERENCES
+		t_messure(id_messure)
+		ON DELETE CASCADE
+);
