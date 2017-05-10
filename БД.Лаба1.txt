@@ -114,3 +114,35 @@ CONSTRAINT PK_deliver PRIMARY KEY(id_deliver)
 		t_messure(id_messure)
 		ON DELETE CASCADE
 );
+
+/*задание 2*/
+ALTER TABLE t_caterer
+  DROP COLUMN ADDRES;
+ALTER TABLE t_caterer
+  ADD (U_Addres NVARCHAR2(70) NOT NULL,
+    F_Addres NVARCHAR2(70) NOT NULL,
+    E_Mail NVARCHAR2(30)
+);
+
+/*задание 3 */
+ALTER TABLE t_inprice
+  ADD CONSTRAINT PK_inprice
+    PRIMARY KEY (id_material, price_date);
+    
+/*задание 4 */
+CREATE TABLE t_group(
+  id_group INT NOT NULL,
+  name NVARCHAR2(35) NOT NULL,
+  CONSTRAINT PK_group 
+    PRIMARY KEY (id_group)
+);
+ALTER TABLE t_material
+  ADD id_group INT
+  ADD CONSTRAINT FK_material_group
+      FOREIGN KEY (id_group) REFERENCES t_group(id_group) ON DELETE SET NULL;
+      
+/*задание 5 */
+ALTER TABLE t_caterer
+  MODIFY (fax NVARCHAR2(35));
+ALTER TABLE t_supply
+  MODIFY (VOLUME INT CHECK (volume>= 0))
